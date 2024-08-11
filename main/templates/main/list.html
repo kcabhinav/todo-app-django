@@ -1,0 +1,29 @@
+{% extends "main/index.html" %} {% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold"></thead>
+    <tr>
+        <td>Title</td>
+        <td>Created At</td>
+        <td>Completed?</td>
+        <td>
+            <a href="{% url 'task_add' %}">Add New</a>
+        </td>
+    </tr>
+    {% for todo in todo_list%}
+        {% if todo.completed == False %}
+            <td>{{todo.title}}</td>
+        {% else %}
+            <td><s>{{todo.title}}</s></td>
+        {% endif %}
+        <td>{{todo.created}}</td>
+        <td>{{todo.completed}}</td>
+        <td>
+            <a href="{% url 'task_edit' todo.id %}" class="btn text-secondary px-0"><i class="far fa-edit fa-lg"></i></a>
+            <form action="{% url 'task_delete' todo.id %}" method="post">
+                <button>{% csrf_token %}<i class="fa fa-trash fa-lg"></i></button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
